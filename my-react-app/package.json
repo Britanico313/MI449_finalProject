@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@react-three/fiber": "^8.16.2",
-    "chart.js": "^4.4.2",
-    "react-chartjs-2": "^5.2.0",
-    "three": "^0.163.0"
-  }
-}
