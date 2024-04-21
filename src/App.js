@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Activity() {
   const [soloActivityDetails, setSoloActivityDetails] = useState({});
   const [groupActivityDetails, setGroupActivityDetails] = useState({});
+  const [activityTypes, setActivityTypes] = useState({});
   const [joke, setJoke] = useState('Click the button to hear a joke!');
 
   const fetchActivity = (setActivityFunction, participants) => {
@@ -15,14 +19,11 @@ function Activity() {
         return response.json();
       })
       .then(data => {
-        setActivityFunction({
-          activity: data.activity,
-          type: data.type,
-          participants: data.participants,
-          price: data.price,
-          link: data.link,
-          accessibility: data.accessibility
-        });
+        setActivityFunction(data);
+        setActivityTypes(prevTypes => ({
+          ...prevTypes,
+          [data.type]: (prevTypes[data.type] || 0) + 1
+        }));
       })
       .catch(err => {
         console.error('Error fetching activity data: ', err);
@@ -58,13 +59,24 @@ function Activity() {
       )}
     </div>
   );
+
+  const activityChartData = {
+    labels: Object.keys(activityTypes),
+    datasets: [{
+      label: 'Number of Activities by Type',
+      data: Object.values(activityTypes),
+      backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'],
+      borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
+      borderWidth: 1,
+    }]
+  };
+
   return (
     <div className="app bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 min-h-screen flex flex-col items-center pt-10 pb-20 px-4">
-      <h1 className="text-6xl font-extrabold text-center text-white mb-10">
-        Cure Your Boredom!
-      </h1>
+      <h1 className="text-6xl font-extrabold text-center text-white mb-10">Cure Your Boredom!</h1>
       
       <div className="space-y-10 w-full max-w-4xl">
+        <Bar data={activityChartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />
         <div className="bg-white rounded-lg shadow-2xl p-6">
           <h2 className="text-4xl font-bold text-green-700 mb-4">Solo Activity</h2>
           <ActivityInfo details={soloActivityDetails} />
