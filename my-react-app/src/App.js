@@ -59,34 +59,35 @@ function Activity() {
     </div>
   );
   return (
-    <div className='app bg-gray-100 min-h-screen flex flex-col justify-center items-center'>
-      <div className="max-w-4xl w-full space-y-8">
-        <h1 className="text-5xl font-bold text-center text-green-800 mb-8">
-          Wish to Cure Some Boredom?
-        </h1>
-        <div className="bg-green-800 text-white rounded-lg shadow-xl p-5">
-          <h2 className="text-3xl font-bold mb-4">Solo Activity</h2>
+    <div className="app bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 min-h-screen flex flex-col items-center pt-10 pb-20 px-4">
+      <h1 className="text-6xl font-extrabold text-center text-white mb-10">
+        Cure Your Boredom!
+      </h1>
+      
+      <div className="space-y-10 w-full max-w-4xl">
+        <div className="bg-white rounded-lg shadow-2xl p-6">
+          <h2 className="text-4xl font-bold text-green-700 mb-4">Solo Activity</h2>
           <ActivityInfo details={soloActivityDetails} />
-          <button onClick={() => fetchActivity(setSoloActivityDetails, 1)} className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded mt-4">
+          <button onClick={() => fetchActivity(setSoloActivityDetails, 1)}
+            className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">
             Generate Solo Activity
           </button>
         </div>
-        
-        <div className="bg-green-800 text-white rounded-lg shadow-xl p-5">
-          <h2 className="text-3xl font-bold mb-4">Group Activity</h2>
+
+        <div className="bg-white rounded-lg shadow-2xl p-6">
+          <h2 className="text-4xl font-bold text-green-700 mb-4">Group Activity</h2>
           <ActivityInfo details={groupActivityDetails} />
-          <button onClick={() => fetchActivity(setGroupActivityDetails, 2)} className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded mt-4">
+          <button onClick={() => fetchActivity(setGroupActivityDetails, 2)}
+            className="mt-4 w-full bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">
             Generate Group Activity
           </button>
         </div>
 
-        <h1 className="text-5xl font-bold text-center text-blue-800 my-8">
-          Or Perhaps You'd Like to Hear a Joke?
-        </h1>
-        <div className="bg-blue-800 text-white rounded-lg shadow-xl p-5">
-          <h2 className="text-3xl font-bold mb-4">Chuck Norris Joke</h2>
+        <div className="bg-white rounded-lg shadow-2xl p-6">
+          <h2 className="text-4xl font-bold text-blue-700 mb-4">Chuck Norris Joke</h2>
           <p>{joke}</p>
-          <button onClick={fetchJoke} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded mt-4">
+          <button onClick={fetchJoke}
+            className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">
             Tell Me a Joke
           </button>
         </div>
