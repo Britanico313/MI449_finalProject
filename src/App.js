@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
-
-
+import * as THREE from 'three';
+import { Canvas, useFrame } from '@react-three/fiber';
+function SpinningCube() {
+  const meshRef = useRef();
+  useFrame(() => (meshRef.current.rotation.x = meshRef.current.rotation.y += 0.01));
+  return (
+    <mesh ref={meshRef}>
+      <boxBufferGeometry attach="geometry" args={[2, 2, 2]} />
+      <meshStandardMaterial attach="material" color="royalblue" />
+    </mesh>
+  );
+}
 function Activity() {
   const [soloActivityDetails, setSoloActivityDetails] = useState({});
   const [groupActivityDetails, setGroupActivityDetails] = useState({});
@@ -58,6 +68,7 @@ function Activity() {
       )}
     </div>
   );
+  const [showCube, setShowCube] = useState(false);
   return (
     <div className="app bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 min-h-screen flex flex-col items-center pt-10 pb-20 px-4">
       <h1 className="text-6xl font-extrabold text-center text-white mb-10">
@@ -82,7 +93,13 @@ function Activity() {
             Generate Group Activity
           </button>
         </div>
-
+        {showCube && (
+        <Canvas>
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} />
+          <SpinningCube />
+        </Canvas>
+      )}
         <div className="bg-white rounded-lg shadow-2xl p-6">
           <h2 className="text-4xl font-bold text-blue-700 mb-4">Chuck Norris Joke</h2>
           <p>{joke}</p>
