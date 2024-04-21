@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
-import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 function SpinningCube() {
   const meshRef = useRef();
-  useFrame(() => (meshRef.current.rotation.x = meshRef.current.rotation.y += 0.01));
+  useFrame(() => {
+    meshRef.current.rotation.x += 0.01;
+    meshRef.current.rotation.y += 0.01;
+  });
   return (
     <mesh ref={meshRef}>
-      <boxBufferGeometry attach="geometry" args={[2, 2, 2]} />
-      <meshStandardMaterial attach="material" color="royalblue" />
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color="royalblue" />
     </mesh>
   );
 }
+
 function Activity() {
   const [soloActivityDetails, setSoloActivityDetails] = useState({});
   const [groupActivityDetails, setGroupActivityDetails] = useState({});
   const [joke, setJoke] = useState('Click the button to hear a joke!');
+  const [show3DEffect, setShow3DEffect] = useState(false);
 
   const fetchActivity = (setActivityFunction, participants) => {
     fetch(`https://www.boredapi.com/api/activity?participants=${participants}`)
@@ -75,6 +79,14 @@ function Activity() {
         Cure Your Boredom!
       </h1>
       
+      {show3DEffect && (
+        <Canvas>
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} />
+          <SpinningCube />
+        </Canvas>
+      )}
+      
       <div className="space-y-10 w-full max-w-4xl">
         <div className="bg-white rounded-lg shadow-2xl p-6">
           <h2 className="text-4xl font-bold text-green-700 mb-4">Solo Activity</h2>
@@ -93,13 +105,7 @@ function Activity() {
             Generate Group Activity
           </button>
         </div>
-        {showCube && (
-        <Canvas>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} />
-          <SpinningCube />
-        </Canvas>
-      )}
+
         <div className="bg-white rounded-lg shadow-2xl p-6">
           <h2 className="text-4xl font-bold text-blue-700 mb-4">Chuck Norris Joke</h2>
           <p>{joke}</p>
@@ -108,6 +114,11 @@ function Activity() {
             Tell Me a Joke
           </button>
         </div>
+        
+        <button onClick={() => setShow3DEffect(!show3DEffect)}
+          className="text-white bg-red-500 hover:bg-red-600 font-bold py-2 px-4 rounded-full transition duration-300">
+          Toggle 3D Effect
+        </button>
       </div>
     </div>
   );
